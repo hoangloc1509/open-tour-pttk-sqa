@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="OpenTour:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>OpenTour</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="OpenTour-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="OpenTour:war exploded" />
+    </root>
+  </artifact>
+</component>
