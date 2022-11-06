@@ -18,8 +18,8 @@
 
         HoaDonDoiTacDAO hoaDonDoiTacDAO = new HoaDonDoiTacDAO();
         boolean isSave = hoaDonDoiTacDAO.saveHoaDonDoiTac(hoaDonDoiTac);
-        if (isSave) response.sendRedirect("gdDanhSachHoaDonDoiTac.jsp?doiTacId=" + session.getAttribute("doiTacId") + "&status=success");
-        else response.sendRedirect("gdDanhSachHoaDonDoiTac.jsp?doiTacId=" + session.getAttribute("doiTacId") + "&status=fail");
+        if (isSave) response.sendRedirect("gdDanhSachHoaDonDoiTac.jsp?doiTacId=" + session.getAttribute("doiTacId") + "&doiTacName=" + session.getAttribute("doiTacName") + "&status=success");
+        else response.sendRedirect("gdDanhSachHoaDonDoiTac.jsp?doiTacId=" + session.getAttribute("doiTacId") + "&doiTacName=" + session.getAttribute("doiTacName") + "&status=fail");
     %>
 </body>
 </html>

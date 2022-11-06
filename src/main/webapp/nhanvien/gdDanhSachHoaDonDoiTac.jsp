@@ -87,7 +87,7 @@
         <h1>Danh sách hóa đơn 12 tháng gần nhất</h1>
         <main class="list-container">
             <h2 class="title">
-                Đối tác: <%= request.getParameter("doitacName") %>
+                Đối tác: <%= request.getParameter("doiTacName") %>
             </h2>
             <table class="list-hoadon">
                 <tr>
