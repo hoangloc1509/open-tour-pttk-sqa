@@ -1,5 +1,5 @@
 <%@ page import="com.example.opentour.model.HoaDonDoiTac" %>
-<%@ page import="com.example.opentour.dao.HoaDonDoiTacDAO" %>
+<%@ page import="com.example.opentour.dao.HoaDonDoiTacDAOTest" %>
 <%--
   Created by IntelliJ IDEA.
   User: profe
