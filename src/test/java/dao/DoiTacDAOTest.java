@@ -38,7 +38,7 @@ public class DoiTacDAOTest {
     @Test
     public void testSearchDoiTac_testNgoaiLe() throws SQLException {
         // Đối tác không có trên hệ thống
-        String key = "fpt";
+        String key = "@asdasd";
         List<DoiTac> result = doiTacDAO.searchDoiTac(key);
         Assert.assertNotNull(result);
         Assert.assertEquals(0, result.size());

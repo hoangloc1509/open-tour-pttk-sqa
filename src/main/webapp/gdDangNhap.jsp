@@ -1,3 +1,4 @@
+<%@ page import="com.example.opentour.model.NhanVien" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -43,6 +44,10 @@
     </style>
 </head>
 <body>
+    <%
+        NhanVien nhanVien = (NhanVien) session.getAttribute("staff");
+        if (nhanVien != null) response.sendRedirect("./nhanvien/gdChinhNV.jsp");
+    %>
     <div class="container">
         <h1>Đăng nhập</h1>
         <form class="form-container" action="doDangNhap.jsp" autocomplete="off" method="post">

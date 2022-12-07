@@ -68,7 +68,10 @@
 <body>
     <%
         NhanVien nhanVien = (NhanVien) session.getAttribute("staff");
-        if (nhanVien == null) response.sendRedirect("../gdDangNhap.jsp");
+        if (nhanVien == null) {
+            response.sendRedirect("../gdDangNhap.jsp");
+            return;
+        }
     %>
     <div class="container">
         <h1>Tìm đối tác</h1>

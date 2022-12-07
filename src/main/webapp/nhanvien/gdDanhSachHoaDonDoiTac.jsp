@@ -3,7 +3,6 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.example.opentour.dao.HoaDonDoiTacDAO" %>
 <%@ page import="java.util.Locale" %>
-<%@ page import="java.util.Currency" %>
 <%@ page import="java.text.NumberFormat" %>
 <%--
   Created by IntelliJ IDEA.
@@ -70,7 +69,10 @@
 <body>
     <%
         NhanVien nhanVien = (NhanVien) session.getAttribute("staff");
-        if (nhanVien == null) response.sendRedirect("../gdDangNhap.jsp");
+        if (nhanVien == null) {
+            response.sendRedirect("../gdDangNhap.jsp");
+            return;
+        }
         HoaDonDoiTacDAO hoaDonDoiTacDAO = new HoaDonDoiTacDAO();
 
         List<HoaDonDoiTac> listHoaDonDoiTac = hoaDonDoiTacDAO.getHoaDonDoiTac(Integer.parseInt(request.getParameter("doiTacId")));

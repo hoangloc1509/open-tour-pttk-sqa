@@ -28,6 +28,7 @@ public class HoaDonDoiTacDAO extends DAO {
             String hoaDonStatus = rs.getString("status");
             Double hoaDonTotalAmount = 0.0;
 
+
             List<DichVuDaSuDung> listDvDaSuDung = new ArrayList<>();
             String dvsdSql = "SELECT * FROM tbldichvudasudung WHERE tbldichvudasudung.tblhoadondoitacid = ?";
             PreparedStatement dvsdPs = con.prepareStatement(dvsdSql);
@@ -41,6 +42,7 @@ public class HoaDonDoiTacDAO extends DAO {
                 String dvsdStartDate = sdfStartDate.format(dvsdRs.getDate("start_date"));
                 int dvsdDvccid = dvsdRs.getInt("tbldichvucungcapid");
 
+
                 String dvccSql = "SELECT * FROM tbldichvucungcap WHERE tbldichvucungcap.id = ?";
                 PreparedStatement dvccPs = con.prepareStatement(dvccSql);
                 dvccPs.setInt(1, dvsdDvccid);
@@ -50,6 +52,7 @@ public class HoaDonDoiTacDAO extends DAO {
                     int dvccId = dvccRs.getInt("id");
                     int dvdtId = dvccRs.getInt("tbldichvudoitacid");
 
+
                     String dvdtSql = "SELECT * FROM tbldichvudoitac WHERE tbldichvudoitac.tbldichvuid = ?";
                     PreparedStatement dvdtPs = con.prepareStatement(dvdtSql);
                     dvdtPs.setInt(1, dvdtId);
@@ -58,6 +61,7 @@ public class HoaDonDoiTacDAO extends DAO {
                     while (dvdtRs.next()) {
                         int dichvudoitacId = dvdtRs.getInt("id");
                         int dvId = dvdtRs.getInt("tbldichvuid");
+
 
                         String dvSql = "SELECT * FROM tbldichvu WHERE tbldichvu.id = ?";
                         PreparedStatement dvPs = con.prepareStatement(dvSql);
@@ -73,6 +77,7 @@ public class HoaDonDoiTacDAO extends DAO {
                         dvDoiTac = new DichVuDoiTac(dichvudoitacId, dichVu);
                     }
 
+
                     dvcc = new DichVuCungCap(dvccId, dvDoiTac);
                 }
                 listDvDaSuDung.add(new DichVuDaSuDung(dvsdId, dvsdQuantity, dvsdAmount, dvsdStartDate, dvcc));
@@ -86,11 +91,44 @@ public class HoaDonDoiTacDAO extends DAO {
     }
 
     public boolean saveHoaDonDoiTac(HoaDonDoiTac hoaDonDoiTac) throws SQLException {
-        String sql = "UPDATE tblhoadondoitac SET status = 'Đã thanh toán' WHERE id = ?";
-        PreparedStatement ps = con.prepareStatement(sql);
-        ps.setInt(1, hoaDonDoiTac.getId());
-        int rs = ps.executeUpdate();
-        if (rs != 0) return true;
-        return false;
+        if (hoaDonDoiTac.getStatus() == "Đã thanh toán") return false;
+
+        try {
+            String sql = "UPDATE tblhoadondoitac SET status = 'Đã thanh toán' WHERE id = ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, hoaDonDoiTac.getId());
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public boolean updateHoaDonDoiTac(HoaDonDoiTac hoaDonDoiTac) throws SQLException {
+        if (hoaDonDoiTac.getStatus() == "Đã thanh toán") return false;
+
+        try {
+            List<DichVuDaSuDung> listDvDaSuDung = hoaDonDoiTac.getListDvDaSuDung();
+            String sql = "UPDATE tbldichvudasudung SET quantity = ?, amount = ? WHERE id = ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            for (DichVuDaSuDung dvDaSuDung : listDvDaSuDung) {
+                ps.setInt(1, dvDaSuDung.getQuantity());
+                ps.setDouble(
+                        2,
+                        dvDaSuDung.getDvCungCap()
+                                .getDvDoiTac()
+                                .getDichVu()
+                                .getUnitPrice() * dvDaSuDung.getQuantity()
+                );
+                ps.setInt(3, dvDaSuDung.getId());
+                ps.addBatch();
+            }
+            ps.executeBatch();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 }
