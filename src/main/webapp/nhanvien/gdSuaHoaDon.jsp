@@ -55,7 +55,15 @@
         }
 
         .number-input {
+            padding: 0.4rem 0.8rem;
+            font-size: 1.8rem;
+            width: 8rem;
+            border-radius: 0.5rem;
+            border: 0.2rem solid #555;
+        }
 
+        .number-input:disabled {
+            background-color: #ddd;
         }
     </style>
 </head>
@@ -98,9 +106,9 @@
                     <td><%= dichVuDaSuDung.getDvCungCap().getDvDoiTac().getDichVu().getName() %></td>
                     <td><%= dichVuDaSuDung.getStartDate() %></td>
                     <td><%= vndFormat.format(dichVuDaSuDung.getDvCungCap().getDvDoiTac().getDichVu().getUnitPrice()) %></td>
-                    <td><input class="number-input" type="number" value="<%= dichVuDaSuDung.getQuantity() %>" /></td>
+                    <td><input class="number-input edit-<%= dichVuDaSuDung.getId() %>" type="number" value="<%= dichVuDaSuDung.getQuantity() %>" disabled /></td>
                     <td><%= vndFormat.format(dichVuDaSuDung.getAmount()) %></td>
-                    <td><button class="btn">Sửa</button></td>
+                    <td><button class="btn btn-<%= dichVuDaSuDung.getId() %>" onclick="setInputEnable(<%= dichVuDaSuDung.getId() %>)">Sửa</button></td>
                 </tr>
                 <%
                     }
@@ -115,5 +123,16 @@
             </div>
         </main>
     </div>
+    <script>
+        const setInputEnable = (dvDaSuDungId) => {
+            const btnSua = document.querySelector('.btn-' + dvDaSuDungId);
+            const inputSoLuong = document.querySelector('.edit-' + dvDaSuDungId);
+            btnSua.addEventListener("click", () => {
+                inputSoLuong.disabled = !inputSoLuong.disabled;
+                if (inputSoLuong.disabled === false) btnSua.textContent = "Xong";
+                else btnSua.textContent = "Sửa";
+            })
+        };
+    </script>
 </body>
 </html>

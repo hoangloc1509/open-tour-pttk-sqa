@@ -1,4 +1,6 @@
-<%--
+<%@ page import="com.example.opentour.model.DichVuDaSuDung" %>
+<%@ page import="com.example.opentour.model.HoaDonDoiTac" %>
+<%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: profe
   Date: 12/7/2022
@@ -11,6 +13,12 @@
     <title>Title</title>
 </head>
 <body>
-
+    <%
+        HoaDonDoiTac hoaDonDoiTac = (HoaDonDoiTac) session.getAttribute("hoaDonDoiTac" + request.getParameter("hoaDonId"));
+        List<DichVuDaSuDung> listDichVuDaSuDung = hoaDonDoiTac.getListDvDaSuDung();
+    %>
+    <pre>
+        <%= listDichVuDaSuDung %>
+    </pre>
 </body>
 </html>
